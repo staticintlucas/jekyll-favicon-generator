@@ -3,6 +3,7 @@
 require "jekyll"
 
 require "jekyll-svg-favicons/generator"
+require "jekyll-svg-favicons/hook"
 
 module JekyllSvgFavicons
   autoload :VERSION, "jekyll-svg-favicons/version"
