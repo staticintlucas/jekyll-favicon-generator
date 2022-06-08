@@ -7,19 +7,19 @@ require "jekyll-svg-favicons/generator"
 module JekyllSvgFavicons
   autoload :VERSION, "jekyll-svg-favicons/version"
 
-  def debug(msg)
-    Jekyll.logger.debug "SVG Favicons:", msg
+  def debug(topic = "SVG Favicons:", msg) # rubocop:disable Style/OptionalArguments
+    Jekyll.logger.debug topic, msg
   end
 
-  def info(msg)
-    Jekyll.logger.info "SVG Favicons:", msg
+  def info(topic = "SVG Favicons:", msg) # rubocop:disable Style/OptionalArguments
+    Jekyll.logger.info topic, msg
   end
 
-  def warn(msg)
-    Jekyll.logger.warn "SVG Favicons:", msg
+  def warn(topic = "SVG Favicons:", msg) # rubocop:disable Style/OptionalArguments
+    Jekyll.logger.warn topic, msg
   end
 
-  def abort_with(msg)
-    Jekyll.logger.abort_with "SVG Favicons:", msg
+  def abort_with(topic = "SVG Favicons:", msg) # rubocop:disable Style/OptionalArguments
+    Jekyll.logger.abort_with topic, msg
   end
 end

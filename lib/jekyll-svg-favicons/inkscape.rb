@@ -18,8 +18,8 @@ module JekyllSvgFavicons
       abort_with "Cannot determine Inkscape version" unless @version
       debug "Detected Inkscape version #{@version[:major]}.#{@version[:minor]}"
 
-      open_shell!
-      quit!
+      open_shell
+      quit
     end
 
     def find
@@ -27,18 +27,38 @@ module JekyllSvgFavicons
     end
 
     def version
-      _stdin, stdout = Open3.popen2e @exe, "--version", :chdir => File.dirname(@exe)
+      stdin, stdout = Open3.popen2e @exe, "--version", :chdir => File.dirname(@exe)
       while (line = stdout.gets)
         m = line.match(%r!^Inkscape (?<major>\d+)\.(?<minor>\d+)!)
-        return m.named_captures.transform_keys(&:to_sym).transform_values(&:to_i) if m
+        break if m
       end
+      while stdout.gets do end
+      stdin.close
+      stdout.close
+      m.named_captures.transform_keys(&:to_sym).transform_values(&:to_i)
     end
 
-    def self.finalize
-      proc do
-        @stdin.close if @stdin && !@stdin.closed?
-        @stdout.close if @stdout && !@stdout.closed?
+    def quit
+      ready_count = 0
+      @stdin.close # Inkscape should exit for EOF on stdin
+      unless @stdout.closed?
+        # Wait for EOF on stdout
+        while read_stdout != :eof
+          ready_count += 1
+          next unless ready_count >= 3
+
+          warn "Inkscape not responding to EOF... killing Inkscape"
+          Process.kill "KILL", @wait_thr.pid
+          break
+        end
+        @stdout.close
       end
+      exitstatus = @wait_thr.value.exitstatus
+      warn "Inkscape quit with exit code #{exitstatus}" if exitstatus.nonzero?
+    end
+
+    def self.finalize(obj)
+      proc { obj.quit }
     end
 
     private
@@ -80,47 +100,42 @@ module JekyllSvgFavicons
       end
     end
 
-    def open_shell!
+    def open_shell
       @stdin, @stdout, @wait_thr = Open3.popen2e @exe, "--shell", :chdir => File.dirname(@exe)
-      ObjectSpace.define_finalizer self, self.class.finalize
-      wait_for_ready!
+      ObjectSpace.define_finalizer self, self.class.finalize(self)
+      wait_for_ready
     end
 
-    def wait_for_ready!
-      loop do
-        case (c = @stdout.getc)
-        when nil
-          abort_with "Inkscape unexpectedly quit with exit code #{@wait_thr.value.exitstatus}"
-        when ">"
-          return
-        else
-          debug "inkscape: #{c}#{@stdout.gets}" unless c == "\n"
-        end
+    def wait_for_ready
+      case read_stdout
+      when :ready
+        # return
+      when :eof
+        abort_with "Inkscape unexpectedly quit with exit code #{@wait_thr.value.exitstatus}"
+      else
+        abort_with "Program shouldn't ever get here!?"
       end
     end
 
-    def send_command!(cmd)
+    def read_stdout
+      while (c = @stdout.getc)
+        case c
+        when ">"
+          return :ready
+        when "\n", " "
+          # Skip empty lines and leading whitespace
+        else
+          line = "#{c}#{@stdout.gets}"
+          # Filter out those anoying dbus errors
+          debug "inkscape:", line unless %r!CRITICAL.+dbus_g_.+assertion!.match?(line)
+        end
+      end
+      :eof
+    end
+
+    def send_command(cmd)
       @stdin.puts cmd
-      debug "inkscape> #{cmd}"
-    end
-
-    def quit!
-      send_command! "quit"
-
-      loop do
-        case (c = @stdout.getc)
-        when nil
-          if @wait_thr.value.exitstatus.nonzero?
-            warn "Inkscape quit with exit code #{@wait_thr.value.exitstatus}"
-          end
-          break
-        when ">"
-          warn "Inkscape not responding to quit... killing Inkscape"
-          Process.kill "KILL", @wait_thr.pid
-        else
-          debug "inkscape: #{c}#{@stdout.gets}" unless c == "\n"
-        end
-      end
+      debug "inkscape>", cmd.to_s
     end
   end
 end
