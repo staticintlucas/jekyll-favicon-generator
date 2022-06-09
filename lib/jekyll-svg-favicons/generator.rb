@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "jekyll-svg-favicons/inkscape"
+require "jekyll-svg-favicons/configuration"
 
 require "fileutils"
 
@@ -10,15 +10,26 @@ module JekyllSvgFavicons
 
     def generate(site)
       @site = site
-      @config = @site.config["svg-favicons"] || {}
 
-      info "Generating favicons using favicon.svg"
+      unless file_exists? source
+        error "File #{source} not found!"
+        return
+      end
+      info "Generating favicons from #{@source}"
+    end
 
-      @source = @config["source"] || "favicon.svg"
-      abort_with "File #{@source} not found!" unless file_exists? @source
-      debug "Using #{@source}"
+    private
 
-      Inkscape.new @config["inkscape"]
+    def inkscape
+      @inkscape ||= Inkscape.new(@config["inkscape"])
+    end
+
+    def config
+      @config ||= Configuration.from @site.config["svg-favicons"] || {}
+    end
+
+    def source
+      @source ||= config["source"] || @site.in_source_dir("favicon.svg")
     end
 
     def file_exists?(file)
