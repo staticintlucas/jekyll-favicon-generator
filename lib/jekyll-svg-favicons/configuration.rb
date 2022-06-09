@@ -9,22 +9,22 @@ module JekyllSvgFavicons
       "destination" => "assets/icons",
       "icons"       => [
         {
-          "name" => "favicon.ico",
+          "file" => "favicon.ico",
           "size" => "16;24;32;48",
           "ref"  => nil,
         },
         {
-          "name" => "favicon-16.png",
+          "file" => "favicon-16.png",
           "size" => "16",
           "ref"  => "link/icon",
         },
         {
-          "name" => "favicon-32.png",
+          "file" => "favicon-32.png",
           "size" => "32",
           "ref"  => "link/icon",
         },
         {
-          "name" => "apple-touch-icon.png",
+          "file" => "apple-touch-icon.png",
           "size" => "180",
           "ref"  => "link/apple-touch-icon",
         },
