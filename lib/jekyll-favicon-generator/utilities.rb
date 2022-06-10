@@ -39,8 +39,8 @@ module JekyllFaviconGenerator
       @source ||= config["source"] || find_source
     end
 
-    def destination
-      @destination ||= config["destination"] || ""
+    def dest_dir
+      @dest_dir ||= config["destination"] || ""
     end
 
     def size_array(size)

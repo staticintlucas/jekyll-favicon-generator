@@ -23,7 +23,9 @@ module JekyllFaviconGenerator
       end
       info "Generating favicons from #{source}"
 
-      config["icons"].map { |icon| Icon.new(site, icon).generate(vips) }
+      config["icons"].map do |icon|
+        @site.static_files << Icon.new(site, icon)
+      end
     end
 
     private

@@ -1,50 +1,43 @@
 # frozen_string_literal: true
 
+require "jekyll-favicon-generator/ico"
 require "jekyll-favicon-generator/utilities"
-require "jekyll-favicon-generator/icon_file"
-
-require "fileutils"
+require "jekyll-favicon-generator/vips"
 
 module JekyllFaviconGenerator
-  class Icon
+  class Icon < Jekyll::StaticFile
     include Utilities
 
     def initialize(site, icon)
       @site = site
       @icon = icon
+
+      super site, site.source, dest_dir, @icon["file"]
     end
 
-    def generate(vips)
-      debug "Generating #{filename}"
-      @site.static_files << IconFile.new(@site, destination_file)
+    def write(dest)
+      dest = destination dest
+      src = @site.in_source_dir source
 
-      FileUtils.mkdir_p @site.in_dest_dir(destination)
-      src = @site.in_source_dir(source)
-      dst = @site.in_dest_dir(destination_file)
+      debug "Writing #{File.basename dest}"
 
       case type
       when :png
-        vips.img_to_png src, dst, size
+        Vips.img_to_png src, dest, size
       when :ico
-        vips.img_to_ico src, dst, size
+        Ico.img_to_ico src, dest, size
       else
-        warn "Unknown format for #{filename}, skipping"
+        warn "Unknown format for #{File.basename dest}, skipping"
+        return false
       end
-    end
 
-    def filename
-      @filename ||= @icon["file"]
+      true
     end
 
     private
 
-    def destination_file
-      # Only prepend the destination path if it is referenced, otherwise place it at the root
-      @destination_file ||= File.join((ref ? destination : ""), filename)
-    end
-
     def type
-      @type ||= case File.extname(filename).downcase
+      @type ||= case File.extname(name).downcase
                 when ".ico"
                   :ico
                 when ".png"
@@ -62,6 +55,10 @@ module JekyllFaviconGenerator
 
     def ref
       @ref ||= @icon["ref"]
+    end
+
+    def dest_dir
+      ref ? super : ""
     end
   end
 end
