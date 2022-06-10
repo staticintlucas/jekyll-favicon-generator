@@ -10,7 +10,7 @@ module JekyllSvgFavicons
       "icons"       => [
         {
           "file" => "favicon.ico",
-          "size" => "16;24;32;48",
+          "size" => "16,24,32,48",
           "ref"  => nil,
         },
         {
