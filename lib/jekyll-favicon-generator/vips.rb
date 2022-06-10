@@ -6,9 +6,12 @@ require "jekyll-favicon-generator/ico"
 
 module JekyllFaviconGenerator
   class LibVips
+    include JekyllFaviconGenerator
     include JekyllFaviconGenerator::Ico
 
-    def initialize(opts = {}) end
+    def initialize
+      debug "Using libvips #{version}"
+    end
 
     def version
       "#{Vips.version(0)}.#{Vips.version(1)}.#{Vips.version(2)}"

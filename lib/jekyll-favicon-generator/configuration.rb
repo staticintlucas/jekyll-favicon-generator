@@ -24,9 +24,23 @@ module JekyllFaviconGenerator
           "ref"  => "link/icon",
         },
         {
+          "file" => "favicon.svg",
+          "ref"  => "link/icon",
+        },
+        {
           "file" => "apple-touch-icon.png",
           "size" => "180",
           "ref"  => "link/apple-touch-icon",
+        },
+        {
+          "file" => "android-chrome-192.png",
+          "size" => "192",
+          "ref"  => "manifest",
+        },
+        {
+          "file" => "android-chrome-512.png",
+          "size" => "512",
+          "ref"  => "manifest",
         },
       ],
     }.freeze

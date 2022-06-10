@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 require "jekyll-favicon-generator/configuration"
-require "jekyll-favicon-generator/vips"
+require "jekyll-favicon-generator/icon"
 require "jekyll-favicon-generator/icon_file"
+require "jekyll-favicon-generator/vips"
 
 module JekyllFaviconGenerator
   class Generator < Jekyll::Generator
@@ -15,36 +16,15 @@ module JekyllFaviconGenerator
     def generate(site)
       @site = site
 
-      unless file_exists? source
+      if file_exists? source
+        config["source"] = source
+      else
         error "File #{source} not found!"
         return
       end
-      info "Generating favicons from #{@source}"
+      info "Generating favicons from #{source}"
 
-      debug "Using libvips #{vips.version}"
-
-      config["icons"].map { |icon| generate_icon icon }
-    end
-
-    def generate_icon(icon)
-      file = icon["file"]
-      return unless file
-
-      debug "Generating #{file}"
-      @site.static_files << IconFile.new(@site, file)
-
-      size = icon["size"]
-      src = @site.in_source_dir(source)
-      dest = @site.in_dest_dir(file)
-
-      case File.extname(file).downcase
-      when ".png"
-        vips.img_to_png src, dest, get_size(size)
-      when ".ico"
-        vips.img_to_ico src, dest, get_size_array(size)
-      else
-        warn "Unknown format for #{file}, skipping"
-      end
+      config["icons"].map { |icon| Icon.new(site, config, icon).generate(vips) }
     end
 
     def config
