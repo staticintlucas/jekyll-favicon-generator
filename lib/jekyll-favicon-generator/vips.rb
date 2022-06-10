@@ -3,10 +3,11 @@
 require "vips"
 
 require "jekyll-favicon-generator/ico"
+require "jekyll-favicon-generator/utilities"
 
 module JekyllFaviconGenerator
   class LibVips
-    include JekyllFaviconGenerator
+    include Utilities
     include JekyllFaviconGenerator::Ico
 
     def initialize

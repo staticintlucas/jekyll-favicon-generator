@@ -1,57 +1,50 @@
 # frozen_string_literal: true
 
+require "jekyll-favicon-generator/utilities"
 require "jekyll-favicon-generator/icon_file"
 
 require "fileutils"
 
 module JekyllFaviconGenerator
   class Icon
-    include JekyllFaviconGenerator
+    include Utilities
 
-    def initialize(site, config, icon)
+    def initialize(site, icon)
       @site = site
-      @config = config
       @icon = icon
-
-      return unless dest_filename
     end
 
     def generate(vips)
-      debug "Generating #{destination}"
-      @site.static_files << IconFile.new(@site, destination)
+      debug "Generating #{filename}"
+      @site.static_files << IconFile.new(@site, destination_file)
 
-      FileUtils.mkdir_p @site.in_dest_dir(dest_dir)
+      FileUtils.mkdir_p @site.in_dest_dir(destination)
+      src = @site.in_source_dir(source)
+      dst = @site.in_dest_dir(destination_file)
 
       case type
       when :png
-        vips.img_to_png source, destination, size
+        vips.img_to_png src, dst, size
       when :ico
-        vips.img_to_ico source, destination, size
+        vips.img_to_ico src, dst, size
       else
-        warn "Unknown format for #{dest_filename}, skipping"
+        warn "Unknown format for #{filename}, skipping"
       end
     end
 
-    def source
-      @source ||= @site.in_source_dir @config["source"]
-    end
-
-    def destination
-      @destination ||= @site.in_dest_dir(File.join(dest_dir, dest_filename))
+    def filename
+      @filename ||= @icon["file"]
     end
 
     private
 
-    def dest_filename
-      @dest_filename ||= @icon["file"]
-    end
-
-    def dest_dir
-      @dest_dir ||= (@config["destination"] if ref) || ""
+    def destination_file
+      # Only prepend the destination path if it is referenced, otherwise place it at the root
+      @destination_file ||= File.join((ref ? destination : ""), filename)
     end
 
     def type
-      @type ||= case File.extname(dest_filename).downcase
+      @type ||= case File.extname(filename).downcase
                 when ".ico"
                   :ico
                 when ".png"
@@ -64,20 +57,11 @@ module JekyllFaviconGenerator
     end
 
     def size
-      return @size if @size
-
-      sizes = split_sizes @icon["size"]
-      sizes = [16] if sizes.empty?
-
-      @size ||= (type == :ico ? sizes : sizes[0])
+      @size ||= size_array(@icon["size"]).tap { |s| break type == :ico && s || s[0] }
     end
 
     def ref
       @ref ||= @icon["ref"]
-    end
-
-    def split_sizes(size)
-      size&.split(",")&.map(&:to_i)&.reject(&:zero?)
     end
   end
 end
