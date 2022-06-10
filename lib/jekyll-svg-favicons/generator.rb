@@ -30,14 +30,16 @@ module JekyllSvgFavicons
       @site.static_files << IconFile.new(@site, file)
 
       size = icon["size"]
+      src = @site.in_source_dir(source)
+      dest = @site.in_dest_dir(file)
 
-      case File.extname(file).downcase
+      case File.extname(file).upcase
       when ".png"
-        vips.img_to_png @site.in_source_dir(source), @site.in_dest_dir(file), get_size(size)
+        vips.img_to_png src, dest, get_size(size)
       when ".ico"
-        vips.img_to_ico @site.in_source_dir(source), @site.in_dest_dir(file), get_size_array(size)
+        vips.img_to_ico src, dest, get_size_array(size)
       else
-        warn "Unknown format for #{file}, skipping"
+        warning "Unknown format for #{file}, skipping"
       end
     end
 
