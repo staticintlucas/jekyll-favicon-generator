@@ -15,6 +15,8 @@ module JekyllFaviconGenerator
     def generate(site)
       @site = site
 
+      debug "Using libvips #{Vips.version}"
+
       if file_exists? source
         config["source"] = source
       else
@@ -26,12 +28,6 @@ module JekyllFaviconGenerator
       config["icons"].map do |icon|
         @site.static_files << Icon.new(site, icon)
       end
-    end
-
-    private
-
-    def vips
-      @vips ||= LibVips.new
     end
   end
 end
