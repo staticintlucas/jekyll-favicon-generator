@@ -2,8 +2,12 @@
 
 require "vips"
 
+require "jekyll-svg-favicons/ico"
+
 module JekyllSvgFavicons
   class LibVips
+    extend JekyllSvgFavicons::Ico
+
     def initialize(opts = {}) end
 
     def version

@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_dependency "bit-struct", "~> 0.17"
   spec.add_dependency "jekyll", ">= 3.7", "< 5.0"
   spec.add_dependency "ruby-vips", "~> 2.1"
 
