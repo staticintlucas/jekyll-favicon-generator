@@ -4,8 +4,6 @@ require "jekyll-svg-favicons/configuration"
 require "jekyll-svg-favicons/vips"
 require "jekyll-svg-favicons/icon_file"
 
-require "fileutils"
-
 module JekyllSvgFavicons
   class Generator < Jekyll::Generator
     include JekyllSvgFavicons
@@ -28,13 +26,16 @@ module JekyllSvgFavicons
       file = icon["file"]
       return unless file
 
+      debug "Generating #{file}"
       @site.static_files << IconFile.new(@site, file)
 
-      size = icon["size"]&.to_i || 16
+      size = icon["size"]
 
-      case File.extname file
+      case File.extname(file).downcase
       when ".png"
-        vips.img_to_png @site.in_source_dir(source), @site.in_dest_dir(file), size
+        vips.img_to_png @site.in_source_dir(source), @site.in_dest_dir(file), get_size(size)
+      when ".ico"
+        vips.img_to_ico @site.in_source_dir(source), @site.in_dest_dir(file), get_size_array(size)
       else
         warn "Unknown format for #{file}, skipping"
       end
@@ -56,6 +57,14 @@ module JekyllSvgFavicons
 
     def find_source
       [".svg", ".png"].map { |ext| "favicon#{ext}" }.find { |f| file_exists? f }
+    end
+
+    def get_size(size)
+      size&.to_i || 16
+    end
+
+    def get_size_array(size)
+      size&.split(",")&.map(&:to_i)&.reject(&:zero?) || [16]
     end
 
     def file_exists?(file)

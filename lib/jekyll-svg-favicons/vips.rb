@@ -6,7 +6,7 @@ require "jekyll-svg-favicons/ico"
 
 module JekyllSvgFavicons
   class LibVips
-    extend JekyllSvgFavicons::Ico
+    include JekyllSvgFavicons::Ico
 
     def initialize(opts = {}) end
 
