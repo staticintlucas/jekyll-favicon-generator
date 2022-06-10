@@ -26,11 +26,11 @@ module JekyllSvgFavicons
           height = width
           f.write bitmap_info_header width, height
 
-          img = Vips::Image.thumbnail svg, size, :height => size
+          img = Vips::Image.thumbnail svg, width, :height => height
           img = img.flip(:vertical) # Flip the image since bitmap is stored bottom to top
           img = img.colourspace :srgb # Ensure srgb colourspace
-          f.write bitmap_xor_mask img, size
-          f.write bitmap_and_mask img, size
+          f.write bitmap_xor_mask img, width, height
+          f.write bitmap_and_mask img, width, height
         end
       end
     end
@@ -85,8 +85,8 @@ module JekyllSvgFavicons
       end
     end
 
-    def bitmap_xor_mask(img, size)
-      xor_rowsize = rowsize(size * BPP_COUNT)
+    def bitmap_xor_mask(img, width, _height)
+      xor_rowsize = rowsize(width * BPP_COUNT)
       arr = img.to_enum.map do |row|
         # Colors are stored in ARGB format with LE order, so BGRA in the array
         # Also pad rows to the required size
@@ -95,8 +95,8 @@ module JekyllSvgFavicons
       arr.flatten.pack("C*")
     end
 
-    def bitmap_and_mask(img, size)
-      and_rowsize = rowsize size
+    def bitmap_and_mask(img, width, _height)
+      and_rowsize = rowsize width
       arr = img.to_enum.map do |row|
         # Convert alpha to 1-bit and pad rows to the required size
         row.map { |_r, _g, _b, a| a.zero? && 1 || 0 }.fill(0, row.length..(and_rowsize * BYTE - 1))
