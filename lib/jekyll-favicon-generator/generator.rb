@@ -8,6 +8,10 @@ module JekyllFaviconGenerator
   class Generator < Jekyll::Generator
     include JekyllFaviconGenerator
 
+    def initialize(site)
+      @site = site
+    end
+
     def generate(site)
       @site = site
 
@@ -33,20 +37,14 @@ module JekyllFaviconGenerator
       src = @site.in_source_dir(source)
       dest = @site.in_dest_dir(file)
 
-      case File.extname(file).upcase
+      case File.extname(file).downcase
       when ".png"
         vips.img_to_png src, dest, get_size(size)
       when ".ico"
         vips.img_to_ico src, dest, get_size_array(size)
       else
-        warning "Unknown format for #{file}, skipping"
+        warn "Unknown format for #{file}, skipping"
       end
-    end
-
-    private
-
-    def vips
-      @vips ||= LibVips.new
     end
 
     def config
@@ -55,6 +53,12 @@ module JekyllFaviconGenerator
 
     def source
       @source ||= config["source"] || find_source
+    end
+
+    private
+
+    def vips
+      @vips ||= LibVips.new
     end
 
     def find_source

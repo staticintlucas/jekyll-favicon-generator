@@ -14,8 +14,8 @@ module JekyllFaviconGenerator
       "#{Vips.version(0)}.#{Vips.version(1)}.#{Vips.version(2)}"
     end
 
-    def img_to_png(img, png, size)
-      img = Vips::Image.thumbnail img, size, :height => size
+    def img_to_png(src, png, size)
+      img = Vips::Image.thumbnail src, size, :height => size
       img.pngsave png
     end
   end
