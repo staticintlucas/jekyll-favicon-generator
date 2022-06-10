@@ -2,11 +2,11 @@
 
 require "vips"
 
-require "jekyll-svg-favicons/ico"
+require "jekyll-favicon-generator/ico"
 
-module JekyllSvgFavicons
+module JekyllFaviconGenerator
   class LibVips
-    include JekyllSvgFavicons::Ico
+    include JekyllFaviconGenerator::Ico
 
     def initialize(opts = {}) end
 
@@ -14,8 +14,8 @@ module JekyllSvgFavicons
       "#{Vips.version(0)}.#{Vips.version(1)}.#{Vips.version(2)}"
     end
 
-    def img_to_png(svg, png, size)
-      img = Vips::Image.thumbnail svg, size, :height => size
+    def img_to_png(img, png, size)
+      img = Vips::Image.thumbnail img, size, :height => size
       img.pngsave png
     end
   end

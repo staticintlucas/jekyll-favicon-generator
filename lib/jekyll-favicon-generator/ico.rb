@@ -3,7 +3,7 @@
 require "vips"
 require "bit-struct"
 
-module JekyllSvgFavicons
+module JekyllFaviconGenerator
   module Ico
     # ICO file format references:
     # https://en.wikipedia.org/wiki/ICO_(file_format)
@@ -18,7 +18,7 @@ module JekyllSvgFavicons
     LONG = 4 * BYTE
     BPP_COUNT = 32
 
-    def img_to_ico(svg, ico, sizes)
+    def img_to_ico(img, ico, sizes)
       File.open(ico, "wb") do |f|
         f.write icon_dir sizes
 
@@ -26,7 +26,7 @@ module JekyllSvgFavicons
           height = width
           f.write bitmap_info_header width, height
 
-          img = Vips::Image.thumbnail svg, width, :height => height
+          img = Vips::Image.thumbnail img, width, :height => height
           img = img.flip(:vertical) # Flip the image since bitmap is stored bottom to top
           img = img.colourspace :srgb # Ensure srgb colourspace
           f.write bitmap_xor_mask img, width, height

@@ -1,16 +1,16 @@
-# jekyll-svg-favicons
+# `jekyll-favicon-generator`
 
-Generates all required favicons for your site from a single SVG.
+Generates all necessary favicons for your site from a single source image.
 
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add jekyll-svg-favicons
+    $ bundle add jekyll-favicon-generator
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install jekyll-svg-favicons
+    $ gem install jekyll-favicon-generator
 
 ## Usage
 
@@ -24,7 +24,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/staticintlucas/jekyll-svg-favicons. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/staticintlucas/jekyll-svg-favicons/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/staticintlucas/jekyll-favicon-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/staticintlucas/jekyll-favicon-generator/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -32,4 +32,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the jekyll-svg-favicons project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/staticintlucas/jekyll-svg-favicons/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the `jekyll-favicon-generator` project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/staticintlucas/jekyll-favicon-generator/blob/master/CODE_OF_CONDUCT.md).

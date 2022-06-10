@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require_relative "lib/jekyll-svg-favicons/version"
+require_relative "lib/jekyll-favicon-generator/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "jekyll-svg-favicons"
-  spec.version = JekyllSvgFavicons::VERSION
+  spec.name = "jekyll-favicon-generator"
+  spec.version = JekyllFaviconGenerator::VERSION
   spec.authors = ["Lucas Jansen"]
 
   spec.summary = "Favicon generator for Jekyll."
-  spec.description = "Generates all necessary favicons for your site from a single source SVG."
-  spec.homepage = "https://github.com/staticintlucas/jekyll-svg-favicons"
+  spec.description = "Generates all necessary favicons for your site from a single source image."
+  spec.homepage = "https://github.com/staticintlucas/jekyll-favicon-generator"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
 

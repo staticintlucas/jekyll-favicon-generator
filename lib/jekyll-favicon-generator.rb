@@ -2,13 +2,13 @@
 
 require "jekyll"
 
-require "jekyll-svg-favicons/generator"
-require "jekyll-svg-favicons/hook"
+require "jekyll-favicon-generator/generator"
+require "jekyll-favicon-generator/hook"
 
-module JekyllSvgFavicons
-  autoload :VERSION, "jekyll-svg-favicons/version"
+module JekyllFaviconGenerator
+  autoload :VERSION, "jekyll-favicon-generator/version"
 
-  LOGGER_PREFIX = "SVG Favicons:"
+  LOGGER_PREFIX = "Favicon Generator:"
 
   def debug(topic = LOGGER_PREFIX, msg) # rubocop:disable Style/OptionalArguments
     Jekyll.logger.debug topic, msg

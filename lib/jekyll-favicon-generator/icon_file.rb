@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module JekyllSvgFavicons
+module JekyllFaviconGenerator
   # Subclass of `Jekyll::StaticFile` with custom method definitions.
   class IconFile < Jekyll::StaticFile
     def initialize(site, file)

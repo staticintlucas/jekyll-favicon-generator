@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module JekyllSvgFavicons
+module JekyllFaviconGenerator
   class Configuration < Jekyll::Configuration
     # Default options. Overridden by values in _config.yml.
     # Strings rather than symbols are used for compatibility with YAML.

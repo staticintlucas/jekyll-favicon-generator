@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "jekyll-svg-favicons"
+require "jekyll-favicon-generator"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

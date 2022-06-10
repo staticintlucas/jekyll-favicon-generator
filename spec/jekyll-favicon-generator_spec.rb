@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe JekyllSvgFavicons do
+RSpec.describe JekyllFaviconGenerator do
   it "has a version number" do
-    expect(JekyllSvgFavicons::VERSION).not_to be nil
+    expect(JekyllFaviconGenerator::VERSION).not_to be nil
   end
 
   it "does something useful" do

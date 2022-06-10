@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "jekyll-svg-favicons/configuration"
-require "jekyll-svg-favicons/vips"
-require "jekyll-svg-favicons/icon_file"
+require "jekyll-favicon-generator/configuration"
+require "jekyll-favicon-generator/vips"
+require "jekyll-favicon-generator/icon_file"
 
-module JekyllSvgFavicons
+module JekyllFaviconGenerator
   class Generator < Jekyll::Generator
-    include JekyllSvgFavicons
+    include JekyllFaviconGenerator
 
     def generate(site)
       @site = site
@@ -50,7 +50,7 @@ module JekyllSvgFavicons
     end
 
     def config
-      @config ||= Configuration.from @site.config["svg-favicons"] || {}
+      @config ||= Configuration.from @site.config["favicon-generator"] || {}
     end
 
     def source

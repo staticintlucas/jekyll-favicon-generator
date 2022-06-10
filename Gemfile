@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in jekyll-svg-favicons.gemspec
+# Specify your gem's dependencies in jekyll-favicon-generator.gemspec
 gemspec
 
 gem "rake", "~> 13.0"
