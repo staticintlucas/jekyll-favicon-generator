@@ -4,28 +4,29 @@ require "jekyll-favicon-generator/configuration"
 
 module JekyllFaviconGenerator
   module Utilities
+    extend self
 
     # Logging functions
 
     LOGGER_PREFIX = "Favicon Generator:"
 
-    def debug(topic = LOGGER_PREFIX, msg)
+    def debug(topic = LOGGER_PREFIX, msg) # rubocop:disable Style/OptionalArguments
       Jekyll.logger.debug topic, msg
     end
 
-    def info(topic = LOGGER_PREFIX, msg)
+    def info(topic = LOGGER_PREFIX, msg) # rubocop:disable Style/OptionalArguments
       Jekyll.logger.info topic, msg
     end
 
-    def warn(topic = LOGGER_PREFIX, msg)
+    def warn(topic = LOGGER_PREFIX, msg) # rubocop:disable Style/OptionalArguments
       Jekyll.logger.warn topic, msg
     end
 
-    def error(topic = LOGGER_PREFIX, msg)
+    def error(topic = LOGGER_PREFIX, msg) # rubocop:disable Style/OptionalArguments
       Jekyll.logger.error topic, msg
     end
 
-    def abort_with(topic = LOGGER_PREFIX, msg)
+    def abort_with(topic = LOGGER_PREFIX, msg) # rubocop:disable Style/OptionalArguments
       Jekyll.logger.abort_with topic, msg
     end
 
