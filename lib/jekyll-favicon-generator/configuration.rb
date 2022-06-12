@@ -7,6 +7,8 @@ module JekyllFaviconGenerator
     DEFAULTS = {
       "source"      => nil,
       "destination" => "assets/icons",
+      "color"       => "#000000",
+      "background"  => "#ffffff",
       "icons"       => [
         {
           "file" => "favicon.ico",
