@@ -35,7 +35,7 @@ module JekyllFaviconGenerator
     end
 
     def render_tag(url)
-      return unless ref
+      return if ref.nil? || ref == :manifest
 
       attrs = attributes(url)
       unless tag_name && attrs
@@ -47,8 +47,6 @@ module JekyllFaviconGenerator
 
       "<#{tag_name} #{attrs.join(" ")}>"
     end
-
-    private
 
     def type
       @type ||= case File.extname(name).downcase
@@ -63,26 +61,48 @@ module JekyllFaviconGenerator
                 end
     end
 
+    def mime
+      @mime ||= case type
+                when :ico
+                  "image/x-icon"
+                when :png
+                  "image/png"
+                when :svg
+                  "image/svg+xml"
+                end
+    end
+
     def size
       @size ||= size_array(@icon["size"]).tap { |s| break type == :ico && s || s[0] }
     end
 
     def ref
-      @ref ||= @icon["ref"]&.downcase
+      @ref ||= case @icon["ref"]&.downcase
+               when "link/icon"
+                 :link_icon
+               when "link/apple-touch-icon"
+                 :link_apple
+               when "manifest", "webmanifest"
+                 :manifest
+               else
+                 nil
+               end
     end
+
+    private
 
     def tag_name
       @tag_name ||= case ref
-                    when "link/icon", "link/apple-touch-icon"
+                    when :link_icon, :link_apple
                       "link"
                     end
     end
 
     def attributes(url)
       case ref
-      when "link/icon"
+      when :link_icon
         { :rel => "icon", :href => url, :sizes => sizes_attr }
-      when "link/apple-touch-icon"
+      when :link_apple
         { :rel => "apple-touch-icon", :href => url, :sizes => sizes_attr }
       end
     end
