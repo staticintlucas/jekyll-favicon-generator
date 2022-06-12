@@ -2,6 +2,7 @@
 
 require "jekyll-favicon-generator/ico"
 require "jekyll-favicon-generator/utilities"
+require "jekyll-favicon-generator/size"
 require "jekyll-favicon-generator/vips"
 
 module JekyllFaviconGenerator
@@ -42,9 +43,9 @@ module JekyllFaviconGenerator
 
       case type
       when :png
-        Vips.img_to_png src, dest, size
+        Vips.img_to_png src, dest, size.to_i
       when :ico
-        Ico.img_to_ico src, dest, size
+        Ico.img_to_ico src, dest, size.to_a
       else
         warn "Unknown format for #{File.basename dest}, skipping"
         return false
@@ -76,7 +77,7 @@ module JekyllFaviconGenerator
     end
 
     def size
-      @size ||= size_array(@icon["size"]).tap { |s| break type == :ico && s || s[0] }
+      @size ||= Size.new @icon["size"]
     end
 
     def ref
@@ -95,18 +96,10 @@ module JekyllFaviconGenerator
     def attributes(url)
       case ref
       when :link_icon
-        { :rel => "icon", :href => url, :sizes => sizes_attr }
+        { :rel => "icon", :href => url, :sizes => (type == :svg ? "any" : size.to_s) }
       when :link_apple
-        { :rel => "apple-touch-icon", :href => url, :sizes => sizes_attr }
+        { :rel => "apple-touch-icon", :href => url, :sizes => size.to_s }
       end
-    end
-
-    def sizes_attr
-      @sizes_attr ||= if type == :svg
-                        "any"
-                      else
-                        size_array(@icon["size"]).map { |s| "#{s}x#{s}" }.join(" ")
-                      end
     end
 
     def dest_dir

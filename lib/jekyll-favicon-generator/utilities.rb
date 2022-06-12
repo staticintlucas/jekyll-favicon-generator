@@ -44,10 +44,6 @@ module JekyllFaviconGenerator
       @dest_dir ||= config["destination"] || ""
     end
 
-    def size_array(size)
-      size&.split(",")&.map(&:to_i)&.reject(&:zero?) || [16]
-    end
-
     # File utilities
 
     def file_exists?(file)

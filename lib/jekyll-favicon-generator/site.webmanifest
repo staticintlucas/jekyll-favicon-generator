@@ -5,7 +5,7 @@
     {%- for icon in page.icons %}
     {
       "src": "{{ icon.url | relative_url }}",
-      "sizes": "{{ icon.size }}x{{ icon.size }}",
+      "sizes": "{{ icon.size }}",
       "type": "{{ icon.mime }}"
     }
     {%- unless forloop.last %},{% endunless %}

@@ -39,7 +39,7 @@ module JekyllFaviconGenerator
     def icon_data(icons)
       data = {}
       data["icons"] = icons.map do |icon|
-        { "url" => icon.url, "size" => icon.size, "mime" => icon.mime }
+        { "url" => icon.url, "size" => icon.size.to_s, "mime" => icon.mime }
       end
       data["color"] = config["color"]
       data["background"] = config["background"]
