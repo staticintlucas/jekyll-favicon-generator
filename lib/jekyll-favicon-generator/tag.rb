@@ -18,17 +18,17 @@ module JekyllFaviconGenerator
       # Jekyll::Filters::URLFilters requires `@context` to be set in the environment.
       @context = context
       @site = context.registers[:site]
+      tags = []
 
-      tags = @site.static_files
-        .select { |s| s.is_a?(Icon) }
-      tags.map!(&:render_tag)
-      tags.select! { |tag, attrs| tag && attrs }
-      tags.map! do |tag, attrs|
-        attrs = attrs.map { |k, v| "#{k}=#{v.to_s.encode(:xml => :attr)}" }
-        "<#{tag} #{attrs.join(" ")}>"
+      @site.static_files.each do |icon|
+        next unless icon.is_a? Icon
+
+        url = relative_url icon.url
+        tag = icon.render_tag url
+        tags << tag if tag
       end
 
-      tags.uniq.join("\n")
+      tags.join("\n")
     end
   end
 end

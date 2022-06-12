@@ -34,12 +34,18 @@ module JekyllFaviconGenerator
       true
     end
 
-    def render_tag
-      if ref && !(tag_name && attributes)
+    def render_tag(url)
+      return unless ref
+
+      attrs = attributes(url)
+      unless tag_name && attrs
         warn "Unknown ref type for #{File.basename @icon["file"]}, skipping"
+        return
       end
 
-      [tag_name, attributes]
+      attrs = attrs.map { |k, v| "#{k}=#{v.to_s.encode(:xml => :attr)}" }
+
+      "<#{tag_name} #{attrs.join(" ")}>"
     end
 
     private
@@ -72,13 +78,13 @@ module JekyllFaviconGenerator
                     end
     end
 
-    def attributes
-      @attributes ||= case ref
-                      when "link/icon"
-                        { :rel => "icon", :href => "/#{url}", :sizes => sizes_attr }
-                      when "link/apple-touch-icon"
-                        { :rel => "apple-touch-icon", :href => "/#{url}", :sizes => sizes_attr }
-                      end
+    def attributes(url)
+      case ref
+      when "link/icon"
+        { :rel => "icon", :href => url, :sizes => sizes_attr }
+      when "link/apple-touch-icon"
+        { :rel => "apple-touch-icon", :href => url, :sizes => sizes_attr }
+      end
     end
 
     def sizes_attr
