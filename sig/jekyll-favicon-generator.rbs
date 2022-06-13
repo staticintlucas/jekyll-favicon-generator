@@ -1,4 +1,100 @@
 module JekyllFaviconGenerator
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+
+  class Configuration < Jekyll::Configuration
+    # Default options. Overridden by values in _config.yml.
+    # Strings are used rather than symbols for compatibility with YAML.
+    DEFAULTS: Hash[String, untyped]
+
+    # Static: Produce a Configuration ready for use in a Site.
+    # It takes the input, fills in the defaults where values do not exist.
+    #
+    # user_config - a Hash or Configuration of overrides.
+    #
+    # Returns a Configuration filled with defaults.
+    def self.from: (Hash[String, untyped] user_config) -> Configuration
+  end
+
+  class Generator < Jekyll::Generator
+    include Utilities
+
+    def initialize: (Jekyll::Site site) -> void
+    def generate: (Jekyll::Site site) -> void
+  end
+
+  class Icon < Jekyll::StaticFile
+    include Utilities
+
+    def initialize: (Jekyll::Site site, Hash[String, untyped] icon) -> void
+    def write: (String dest) -> bool
+    def render_tag: (String url) -> String?
+    def type: () -> Symbol
+    def mime: () -> String
+    def size: () -> Size
+    def ref: () -> Symbol
+  end
+
+  class Manifest < Jekyll::Page
+    include Utilities
+
+    def initialize: (Site site, Array[Icon] icons) -> void
+  end
+
+  class Tag < Liquid::Tag
+    # Use Jekyll's native relative_url filter
+    include Jekyll::Filters::URLFilters
+    include Utilities
+
+    def render: (Liquid::Context context) -> void
+  end
+
+  module Vips
+    include Utilities
+
+    def self.version: () -> String
+    def self.img_to_png: (String src, String png, Integer size) -> bool
+  end
+
+  module Ico
+    extend self
+
+    def img_to_ico: (String src, String ico, Integer sizes) -> bool
+  end
+
+  module Svg
+    include Utilities
+    extend self
+
+    def optimize: (String src, String dest) -> bool
+  end
+
+  module Utilities
+    extend self
+
+    def debug: (?String topic, String msg) -> void
+    def info: (?String topic, String msg) -> void
+    def warn: (?String topic, String msg) -> void
+    def error: (?String topic, String msg) -> void
+    def abort_with: (?String topic, String msg) -> void
+
+    def config: () -> Configuration
+    def source: () -> String
+    def dest_dir: () -> String
+    def file_exists?: (String file) -> bool
+    def find_source: () -> String?
+  end
+
+  class UtilityClass
+    include Utilities
+
+    def initialize: (Jekyll::Site site) -> void
+  end
+
+  class Size
+    def initialize: (String size_str) -> void
+
+    def to_a: () -> Array[Integer]
+    def to_i: () -> Integer
+    def to_s: () -> String
+  end
 end
