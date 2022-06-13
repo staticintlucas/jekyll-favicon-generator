@@ -17,12 +17,12 @@ module JekyllFaviconGenerator
         },
         {
           "file" => "favicon-16.png",
-          "size" => "16",
+          "size" => 16,
           "ref"  => "link/icon",
         },
         {
           "file" => "favicon-32.png",
-          "size" => "32",
+          "size" => 32,
           "ref"  => "link/icon",
         },
         {
@@ -31,17 +31,17 @@ module JekyllFaviconGenerator
         },
         {
           "file" => "apple-touch-icon.png",
-          "size" => "180",
+          "size" => 180,
           "ref"  => "link/apple-touch-icon",
         },
         {
           "file" => "android-chrome-192.png",
-          "size" => "192",
+          "size" => 192,
           "ref"  => "manifest",
         },
         {
           "file" => "android-chrome-512.png",
-          "size" => "512",
+          "size" => 512,
           "ref"  => "manifest",
         },
       ],

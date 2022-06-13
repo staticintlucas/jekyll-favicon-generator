@@ -3,7 +3,7 @@
 module JekyllFaviconGenerator
   class Size
     def initialize(size_str)
-      @size_arr = size_str.split(",").map(&:to_i)
+      @size_arr = size_str.to_s.split(",").map(&:to_i)
       @size_arr.reject!(&:zero?)
       @size_arr = [16] if @size_arr.nil? || @size_arr.empty?
     end
