@@ -8,7 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Lucas Jansen"]
 
   spec.summary = "Favicon generator for Jekyll."
-  spec.description = "Generates all necessary favicons for your site from a single source image."
+  spec.description =
+    "A simple and fast Jekyll plugin to generate favicons from a single source image."
   spec.homepage = "https://github.com/staticintlucas/jekyll-favicon-generator"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
