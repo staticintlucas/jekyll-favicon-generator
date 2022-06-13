@@ -1,5 +1,7 @@
 # jekyll-favicon-generator
 
+[![Gem Version](https://badge.fury.io/rb/jekyll-favicon-generator.svg)](https://badge.fury.io/rb/jekyll-favicon-generator)
+
 A simple and fast Jekyll plugin to generate favicons from a single source image.
 
 ## Features
