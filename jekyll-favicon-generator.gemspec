@@ -29,7 +29,9 @@ Gem::Specification.new do |spec|
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_dependency "bit-struct", "~> 0.17"
   spec.add_dependency "jekyll", ">= 3.7", "< 5.0"
+  spec.add_dependency "nokogiri", "~> 1.12"
   spec.add_dependency "ruby-vips", "~> 2.1"
+  spec.add_dependency "svg_optimizer", "~> 0.2"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

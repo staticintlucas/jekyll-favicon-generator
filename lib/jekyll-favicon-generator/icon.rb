@@ -3,6 +3,7 @@
 require "jekyll-favicon-generator/ico"
 require "jekyll-favicon-generator/utilities"
 require "jekyll-favicon-generator/size"
+require "jekyll-favicon-generator/svg"
 require "jekyll-favicon-generator/vips"
 
 module JekyllFaviconGenerator
@@ -46,12 +47,12 @@ module JekyllFaviconGenerator
         Vips.img_to_png src, dest, size.to_i
       when :ico
         Ico.img_to_ico src, dest, size.to_a
+      when :svg
+        Svg.optimize src, dest
       else
         warn "Unknown format for #{File.basename dest}, skipping"
-        return false
+        false
       end
-
-      true
     end
 
     def render_tag(url)

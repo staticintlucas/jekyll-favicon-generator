@@ -35,6 +35,7 @@ module JekyllFaviconGenerator
           f.write bitmap_and_mask img, width, height
         end
       end
+      true
     end
 
     private

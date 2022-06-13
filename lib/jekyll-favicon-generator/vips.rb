@@ -15,6 +15,7 @@ module JekyllFaviconGenerator
     def self.img_to_png(src, png, size)
       img = ::Vips::Image.thumbnail src, size, :height => size
       img.pngsave png
+      true
     end
   end
 end
