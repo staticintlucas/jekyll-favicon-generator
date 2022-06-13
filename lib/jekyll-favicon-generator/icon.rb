@@ -6,6 +6,8 @@ require "jekyll-favicon-generator/size"
 require "jekyll-favicon-generator/svg"
 require "jekyll-favicon-generator/vips"
 
+require "fileutils"
+
 module JekyllFaviconGenerator
   class Icon < Jekyll::StaticFile
     include Utilities
@@ -21,6 +23,7 @@ module JekyllFaviconGenerator
       dest = destination dest
       src = @site.in_source_dir source
 
+      FileUtils.mkdir_p(File.dirname(dest))
       debug "Writing #{File.basename dest}"
 
       case type
