@@ -10,25 +10,6 @@ module JekyllFaviconGenerator
   class Icon < Jekyll::StaticFile
     include Utilities
 
-    TYPES = {
-      ".ico" => :ico,
-      ".png" => :png,
-      ".svg" => :svg,
-    }.freeze
-
-    MIMES = {
-      :ico => "image/x-icon",
-      :png => "image/png",
-      :svg => "image/svg+xml",
-    }.freeze
-
-    REFS = {
-      "link/icon"             => :link_icon,
-      "link/apple-touch-icon" => :link_apple,
-      "manifest"              => :manifest,
-      "webmanifest"           => :manifest,
-    }.freeze
-
     def initialize(site, icon)
       @site = site
       @icon = icon
@@ -86,6 +67,25 @@ module JekyllFaviconGenerator
     end
 
     private
+
+    TYPES = {
+      ".ico" => :ico,
+      ".png" => :png,
+      ".svg" => :svg,
+    }.freeze
+
+    MIMES = {
+      :ico => "image/x-icon",
+      :png => "image/png",
+      :svg => "image/svg+xml",
+    }.freeze
+
+    REFS = {
+      "link/icon"             => :link_icon,
+      "link/apple-touch-icon" => :link_apple,
+      "manifest"              => :manifest,
+      "webmanifest"           => :manifest,
+    }.freeze
 
     def tag_name
       @tag_name ||= case ref

@@ -14,12 +14,6 @@ module JekyllFaviconGenerator
 
     extend self
 
-    BYTE = 8
-    WORD = 2 * BYTE
-    DWORD = 4 * BYTE
-    LONG = 4 * BYTE
-    BPP_COUNT = 32
-
     def img_to_ico(src, ico, sizes)
       File.open(ico, "wb") do |f|
         f.write icon_dir sizes
@@ -39,6 +33,12 @@ module JekyllFaviconGenerator
     end
 
     private
+
+    BYTE = 8
+    WORD = 2 * BYTE
+    DWORD = 4 * BYTE
+    LONG = 4 * BYTE
+    BPP_COUNT = 32
 
     # Generate the ICONDIR structure for the ICO file
     def icon_dir(sizes)

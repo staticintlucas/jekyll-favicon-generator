@@ -10,11 +10,6 @@ module JekyllFaviconGenerator
     include Jekyll::Filters::URLFilters
     include Utilities
 
-    def initialize(tag_name, text, tokens)
-      super
-      @text = text
-    end
-
     def render(context)
       # Jekyll::Filters::URLFilters requires `@context` to be set in the environment.
       @context = context

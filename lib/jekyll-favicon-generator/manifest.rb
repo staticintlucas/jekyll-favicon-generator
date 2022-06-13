@@ -6,8 +6,6 @@ module JekyllFaviconGenerator
   class Manifest < Jekyll::Page
     include Utilities
 
-    MANIFEST_NAME = "site.webmanifest"
-
     def initialize(site, icons)
       @site = site
       @base = site.source
@@ -27,6 +25,8 @@ module JekyllFaviconGenerator
     end
 
     private
+
+    MANIFEST_NAME = "site.webmanifest"
 
     def manifest_template
       @manifest_template ||= if file_exists? MANIFEST_NAME
