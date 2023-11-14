@@ -2,6 +2,10 @@ require: rubocop-jekyll
 inherit_gem:
   rubocop-jekyll: .rubocop.yml
 
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
   TargetRubyVersion: 2.7
 
