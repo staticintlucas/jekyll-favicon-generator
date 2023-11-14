@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
     "A simple and fast Jekyll plugin to generate favicons from a single source image."
   spec.homepage = "https://github.com/staticintlucas/jekyll-favicon-generator"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.6.0"
+  spec.required_ruby_version = ">= 2.7.0"
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 
@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "jekyll", ">= 3.7", "< 5.0"
   spec.add_dependency "nokogiri", "~> 1.12"
   spec.add_dependency "ruby-vips", "~> 2.1"
-  spec.add_dependency "svg_optimizer", "~> 0.2"
+  spec.add_dependency "svg_optimizer", "~> 0.3"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

@@ -9,7 +9,7 @@ gem "rake", "~> 13.0"
 
 gem "rspec", "~> 3.0"
 
-gem "rubocop", "~> 1.18" # TODO: update when rubocop-jekyll is updated to use newer rubocop
-gem "rubocop-jekyll", "~> 0.12"
+gem "rubocop", "~> 1.45"
+gem "rubocop-jekyll", "~> 0.13"
 gem "rubocop-rake", "~> 0.6"
 gem "rubocop-rspec", "~> 2.4"

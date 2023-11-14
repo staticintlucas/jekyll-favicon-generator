@@ -3,7 +3,7 @@ inherit_gem:
   rubocop-jekyll: .rubocop.yml
 
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7
 
 Style/StringLiterals:
   Enabled: true
@@ -16,6 +16,5 @@ Style/StringLiteralsInInterpolation:
 Layout/LineLength:
   Max: 100
 
-Layout/BlockAlignment:
-  # TODO enable this when rubocop-jekyll is updated to use more recent rubocop
-  Enabled: false
+Performance/MapMethodChain:
+  Enabled: true

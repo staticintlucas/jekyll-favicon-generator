@@ -43,7 +43,7 @@ module JekyllFaviconGenerator
     # Generate the ICONDIR structure for the ICO file
     def icon_dir(sizes)
       count = sizes.length
-      offset = IconDir.round_byte_length + count * IconDirEntry.round_byte_length
+      offset = IconDir.round_byte_length + (count * IconDirEntry.round_byte_length)
 
       dir = IconDir.new.tap do |id|
         id.type     = 1 # 1 => ICO
@@ -62,7 +62,7 @@ module JekyllFaviconGenerator
     def icon_dir_entry(size, offset)
       xor_rowsize = rowsize size * BPP_COUNT
       and_rowsize = rowsize size
-      bytes = BitMapInfoHeader.round_byte_length + xor_rowsize * size + and_rowsize * size
+      bytes = BitMapInfoHeader.round_byte_length + (xor_rowsize * size) + (and_rowsize * size)
 
       IconDirEntry.new.tap do |ide|
         ide.width         = size
@@ -93,7 +93,8 @@ module JekyllFaviconGenerator
       arr = img.to_enum.map do |row|
         # Colors are stored in ARGB format with LE order, so BGRA in the array
         # Also pad rows to the required size
-        row.map { |r, g, b, a| [b, g, r, a] }.fill([0, 0, 0, 0], row.length..(xor_rowsize / 4 - 1))
+        row.map { |r, g, b, a| [b, g, r, a] }
+          .fill([0, 0, 0, 0], row.length..((xor_rowsize / 4) - 1))
       end
       arr.flatten.pack("C*")
     end
@@ -102,7 +103,8 @@ module JekyllFaviconGenerator
       and_rowsize = rowsize width
       arr = img.to_enum.map do |row|
         # Convert alpha to 1-bit and pad rows to the required size
-        row.map { |_r, _g, _b, a| a.zero? && 1 || 0 }.fill(0, row.length..(and_rowsize * BYTE - 1))
+        row.map { |_r, _g, _b, a| (a.zero? && 1) || 0 }
+          .fill(0, row.length..((and_rowsize * BYTE) - 1))
       end
       [arr.flatten.join].pack("B*")
     end
